@@ -1,0 +1,5 @@
+*.pyc
+.idea/
+Thumbs.db
+.DS_store
+*.log
