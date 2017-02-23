@@ -1,5 +1,32 @@
-*.pyc
-.idea/
+#ignore thumbnails created by windows
 Thumbs.db
-.DS_store
+#Ignore files build by Visual Studio
+*.obj
+*.exe
+*.pdb
+*.user
+*.aps
+*.pch
+*.vspscc
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.tlb
+*.tlh
+*.bak
+*.cache
+*.ilk
 *.log
+*.dll
+*.lib
+*.sbr
+.idea/
+#Ignore files build by Node
+node_modules/
+#Ignore files build by Python
+*.pyc
+__pycache__/
+
+migrations/
+devDB.sqlite

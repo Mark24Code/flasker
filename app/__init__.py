@@ -1,30 +1,47 @@
+# !/usr/bin/env python3
+"""
+app.__init__
+
+app入口文件（相当于main.py）
+"""
 from flask import Flask
-from flask_script import Manager
-from flask_sqlalchemy import SQLAlchemy
-from flask_debugtoolbar import DebugToolbarExtension
-from flask_migrate import Migrate, MigrateCommand
 
-import settings
+from .exts import db, login_manager, bootstrap, moment
+from .config import config, APP_MODULE_NAME, SESSION_PROTECTION, LOGIN_VIEW
+from .errors import set_error_handlers
+from app.libs.util import register_all_blueprints
 
-app = Flask(__name__)
-app.config.from_object(settings)
 
-## extension
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
+def create_app(config_name):
+    """
+    Flask实例工厂函数
 
-toolbar = DebugToolbarExtension(app)
-manager = Manager(app)
+    导入配置
+    初始化拓展
+    注册蓝图
+    :param config_name:字符串类型，配置模式（default,development,testing,production）
+    :return: 设置完毕的Flask实例
+    """
+    app = Flask(__name__)
+    app.config.from_object(config[config_name])
 
-## manager helpers
-manager.add_command('db', MigrateCommand)
+    # errors handlers
+    set_error_handlers(app)
 
-## app self
-from app import views, models
+    # register all blueprints
+    register_all_blueprints(app)
 
-## custom app plugin
-import blog
-import sample
+    # install extensions
+    # bootstrap
+    bootstrap.init_app(app)
+    # time
+    moment.init_app(app)
+    # database
+    db.init_app(app)
 
-app.register_blueprint(blog.bp)
-app.register_blueprint(sample.bp)
+    # login manager (web auth)
+    login_manager.session_protection = SESSION_PROTECTION
+    login_manager.login_view = LOGIN_VIEW
+    login_manager.init_app(app)
+
+    return app
