@@ -3,24 +3,34 @@
 """
 from flask_restful import Resource
 from . import restful_api
-from . import auth
+from . import multi_auth
 
 
 class Source(Resource):
-    @auth.login_required
+    decorators = [multi_auth.login_required]
+
     def get(self):
-        return {'msg': 'Get source restful'}
+        return {
+            'status': 200,
+            'msg': 'Get source restful'
+        }
 
-    @auth.login_required
     def post(self):
-        return {'msg': 'POST source restful'}
+        return {
+            'status': 200,
+            'msg': 'POST source restful'
+        }
 
-    @auth.login_required
     def put(self):
-        return {'msg': 'PUT source restful'}
+        return {
+            'status': 200,
+            'msg': 'PUT source restful'
+        }
 
-    @auth.login_required
     def delete(self):
-        return {'msg': 'DELETE source restful'}
+        return {
+            'status': 200,
+            'msg': 'DELETE source restful'
+        }
 
 restful_api.add_resource(Source, '/source')

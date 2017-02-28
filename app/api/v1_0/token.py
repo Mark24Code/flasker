@@ -4,11 +4,12 @@
 from flask import g
 from flask_restful import Resource
 from . import restful_api
-from . import auth
+from . import basic_auth
 
 
 class Token(Resource):
-    @auth.login_required
+    decorators = [basic_auth.login_required]
+
     def get(self):
         token = g.current_user.generate_auth_token()
         return {
