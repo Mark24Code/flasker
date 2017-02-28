@@ -9,6 +9,7 @@ from flask import Flask
 from .exts import db, login_manager, bootstrap, moment
 from .config import config, APP_MODULE_NAME, SESSION_PROTECTION, LOGIN_VIEW
 from .errors import set_error_handlers
+from flask_cors import CORS
 from app.libs.util import register_all_blueprints
 
 
@@ -43,5 +44,8 @@ def create_app(config_name):
     login_manager.session_protection = SESSION_PROTECTION
     login_manager.login_view = LOGIN_VIEW
     login_manager.init_app(app)
+
+    # CORS Settings
+    CORS(app, resources=r'/api/*')
 
     return app

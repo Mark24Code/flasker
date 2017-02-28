@@ -3,9 +3,12 @@
 """
 from flask_restful import Resource
 from . import restful_api
+from . import auth
 
 
 class Index(Resource):
+    # decorators = [auth.login_required]
+
     def get(self):
         return {'msg': 'Get 来自蓝图restful'}
 
